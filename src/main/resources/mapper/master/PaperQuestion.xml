@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuishu.athomework.mapper.master.PaperMapper">
+
+    <resultMap id="paperQuestionMap" type="com.zhihuishu.athomework.dto.PaperQuestionDto">
+        <id column="ID" property="id"/>
+        <result column="PaperID" property="paperId"/>
+        <result column="PaperGroupID" property="paperGroupId"/>
+        <result column="QuestionID" property="questionId"/>
+        <result column="QuestionPID" property="questionPId"/>
+        <result column="Sort" property="sort"/>
+        <result column="Score" property="score"/>
+        <result column="IsCancel" property="isCancel"/>
+    </resultMap>
+
+    <!--试卷习题信息-->
+    <select id="findPaperQuestionInfo" resultMap="paperQuestionMap">
+            SELECT ID,PaperID,PaperGroupID,QuestionID,QuestionPID,Sort,Score,IsCancel FROM PaperQuestion
+            WHERE PaperID=#{paperId} AND PaperGroupID=#{paperGroupId} AND QuestionID=#{questionId}
+    </select>
+
+    <!--分组下习题ID-->
+    <select id="findPaperQuestionIDS" resultType="String">
+        SELECT QuestionID FROM PaperQuestion WHERE PaperGroupID=#{groupId}
+    </select>
+
+</mapper>

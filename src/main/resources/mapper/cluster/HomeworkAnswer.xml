@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuishu.athomework.mapper.cluster.HomeworkAnswerMapper">
+
+    <resultMap id="homeworkAnswerMap" type="com.zhihuishu.athomework.dto.HomeworkAnswerDto">
+        <id column="ID" property="id"/>
+        <result column="HomeworkID" property="homeworkId"/>
+        <result column="PaperID" property="paperId"/>
+        <result column="QuestionID" property="questionId"/>
+        <result column="UserID" property="userId"/>
+        <result column="Answer" property="answer"/>
+        <result column="Score" property="score"/>
+
+    </resultMap>
+
+    <select id="findHomeworkAnswerID" resultType="java.lang.String">
+        SELECT ID FROM HomeworkAnswer
+        WHERE HomeworkID=#{homeworkId} AND PaperID=#{paperId}  AND UserID=#{userId} AND  QuestionID=#{questionId}
+    </select>
+
+    <select id="getHomeworkAnswerByID" resultMap="homeworkAnswerMap">
+        SELECT *  FROM HomeworkAnswer
+        WHERE HomeworkID=#{homeworkId} AND PaperID=#{paperId}  AND UserID=#{userId} AND  QuestionID=#{questionId}
+    </select>
+
+    <select id="queryHomeworkAnswerByID" resultMap="homeworkAnswerMap">
+        SELECT *  FROM HomeworkAnswer
+        WHERE HomeworkID=#{homeworkId} AND PaperID=#{paperId}  AND UserID=#{userId}
+    </select>
+
+    <update id="updateHomeworkAnswer" parameterType="com.zhihuishu.athomework.dto.HomeworkAnswerDto">
+        UPDATE HomeworkAnswer
+        <trim prefix="set" suffixOverrides=",">
+            <if test="homeworkId != null">HomeworkID = #{homeworkId},</if>
+            <if test="paperId != null">PaperID = #{paperId},</if>
+            <if test="questionId != null">QuestionID = #{questionId},</if>
+            <if test="userId != null">UserID = #{userId},</if>
+            <if test="answer != null">Answer = #{answer},</if>
+            <if test="score != null">Score = #{score},</if>
+
+        </trim>
+        WHERE ID = #{id}
+    </update>
+
+    <insert id="insertHomeworkAnswer" parameterType="com.zhihuishu.athomework.dto.HomeworkAnswerDto">
+        INSERT INTO HomeworkAnswer(HomeworkID, PaperID,QuestionID, UserID,Answer,Score)
+        VALUES (#{homeworkId}, #{paperId}, #{questionId}, #{userId}, #{answer}, #{score})
+    </insert>
+
+</mapper>

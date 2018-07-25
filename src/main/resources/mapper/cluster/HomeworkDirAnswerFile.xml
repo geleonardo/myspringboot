@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuishu.athomework.mapper.cluster.HomeworkFileMapper">
+
+    <resultMap id="homeworkDirAnswerFileMap" type="com.zhihuishu.athomework.dto.HomeWorkDirAnswerFileDto">
+        <id column="ID" property="Id"/>
+        <result column="HomeworkID" property="homeworkId"/>
+        <result column="UserID" property="userId"/>
+        <result column="FileID" property="fileId"/>
+        <result column="FileTitle" property="fileTitle"/>
+        <result column="FileSize" property="fileSize"/>
+        <result column="FileUrl" property="fileUrl"/>
+        <result column="UploadTime" property="uploadTime"/>
+    </resultMap>
+
+
+
+    <select id="getHomeworDirAnswerFile" resultMap="homeworkDirAnswerFileMap">
+        SELECT *  FROM HomeworkDirQuestionAnswerFile
+        WHERE HomeworkID=#{homeworkId}   AND UserID=#{userId}
+    </select>
+
+
+    <insert id="insertHomeworDirAnswerFile" parameterType="com.zhihuishu.athomework.dto.HomeWorkDirAnswerFileDto">
+        INSERT INTO HomeworkDirQuestionAnswerFile(HomeworkID, UserID,FileID，FileTitle, FileSize,FileUrl,UploadTime)
+        VALUES (#{homeworkId}, #{userId}, #{fileId}, #{fileTitle}, #{fileSize}, #{fileUrl}, #{uploadTime})
+    </insert>
+
+    <insert id="deleteHomeworDirAnswerFile" >
+        DELETE HomeworkDirQuestionAnswerFile WHERE  HomeworkID=#{homeworkId}   AND UserID=#{userId} AND  FileID=#{fileId}
+    </insert>
+
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuishu.athomework.mapper.master.KenMapper">
+
+    <resultMap id="kenDtoMap" type="com.zhihuishu.athomework.dto.KenDto">
+        <id column="ID" property="id"/>
+        <result column="Title" property="title"/>
+        <result column="CourseID" property="courseId"/>
+        <result column="UserID" property="userId"/>
+        <result column="SchoolID" property="schoolId"/>
+    </resultMap>
+
+    <select id="findKenById" resultMap="kenDtoMap">
+        SELECT *
+        FROM Ken
+        WHERE ID = #{kenId}
+    </select>
+
+    <select id="getIdByCourseIdAndTitle" resultType="java.lang.Long">
+        SELECT ID
+        FROM Ken
+        WHERE CourseID = #{courseId}
+        AND Title = #{title}
+    </select>
+
+    <insert id="saveKen" parameterType="com.zhihuishu.athomework.dto.KenDto"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO Ken(Title, CourseID, UserID, SchoolID)
+        VALUES(#{title}, #{courseId}, #{userId}, #{schoolId})
+    </insert>
+
+</mapper>

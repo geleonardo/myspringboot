@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuishu.athomework.mapper.master.QuestionMapper">
+
+    <resultMap id="questionDtoMap" type="com.zhihuishu.athomework.dto.QuestionDto">
+        <id column="ID" property="id"/>
+        <result column="QuestionTypeID" property="questionTypeId"/>
+        <result column="Diff" property="diff"/>
+        <result column="Content" property="content"/>
+        <result column="Result" property="result"/>
+        <result column="From" property="from"/>
+        <result column="Hit" property="hit"/>
+        <result column="CreateTime" property="createTime"/>
+        <result column="IsDisplay" property="display"/>
+        <result column="Userid" property="userId"/>
+        <result column="ParentID" property="parentId"/>
+        <result column="Analysis" property="analysis"/>
+        <result column="SchoolID" property="schoolId"/>
+        <result column="UpdateTime" property="updateTime"/>
+        <result column="LastUpdateUserID" property="lastUpdateUserId"/>
+        <result column="IsDeleted" property="deleted"/>
+    </resultMap>
+
+    <select id="findQuestionInfo" resultMap="questionDtoMap">
+        SELECT *
+        FROM Question
+        WHERE IsDeleted = 0
+            AND ID = #{questionId}
+    </select>
+
+    <!-- 使用useGeneratedKeys和keyProperty可以将新生成的主键值传给参数 -->
+    <insert id="saveQuestionInfo" parameterType="com.zhihuishu.athomework.dto.QuestionDto"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO Question(QuestionTypeID, Diff, Content, `From`, CreateTime,
+                             IsDisplay, Userid, ParentID, Analysis, IsDeleted)
+        VALUES (#{questionTypeId}, #{diff}, #{content}, #{from}, #{createTime}, #{display}, #{userId},
+                 #{parentId}, #{analysis}, 0)
+    </insert>
+
+    <update id="updateQuestionInfo">
+        UPDATE Question
+        SET Diff = #{diff}, Content = #{content}, Analysis = #{analysis},
+            UpdateTime = #{updateTime}, LastUpdateUserID = #{lastUpdateUserId}
+        WHERE ID = #{id}
+    </update>
+
+    <update id="delQuesLogically">
+        UPDATE Question
+        SET IsDeleted = 1
+        WHERE ID = #{questionId}
+    </update>
+
+</mapper>

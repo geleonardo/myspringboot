@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuishu.athomework.mapper.cluster.HomeworkUserMapper">
+
+    <resultMap id="homeworkUserDirMap" type="com.zhihuishu.athomework.dto.HomeworkDirUserDto">
+        <id column="ID" property="id" />
+        <result column="HomeworkID" property="homeworkId"/>
+        <result column="PaperID" property="paperId"/>
+        <result column="UserID" property="userId"/>
+        <result column="Status" property="status"/>
+        <result column="IsDelay" property="isDelay"/>
+        <result column="SubjectiveScore" property="subjectiveScore"/>
+        <result column="ObjectiveScore" property="objectiveScore"/>
+        <result column="Deduct" property="deduct"/>
+        <result column="SubmitTime" property="submitTime"/>
+        <result column="Similar" property="similar"/>
+        <result column="Remark" property="remark"/>
+    </resultMap>
+
+    <select id="queryHomeworkDirUserByUserId" resultMap="homeworkUserDirMap">
+        SELECT *  FROM HomeworkUser WHERE UserID=#{userId}
+    </select>
+
+    <select id="getHomeworkDirUserBySingle" resultMap="homeworkUserDirMap" >
+        SELECT * FROM HomeworkUser WHERE UserID=#{userId} AND  HomeworkID=#{homeworkId}
+    </select>
+
+
+    <update id="updateHomeworkDirUserByID" parameterType="com.zhihuishu.athomework.dto.HomeworkDirUserDto">
+        UPDATE HomeworkUser
+        <trim prefix="set" suffixOverrides=",">
+            <if test="status != null">Status = #{status},</if>
+            <if test="isDelay != null">IsDelay = #{isDelay},</if>
+            <if test="subjectiveScore != null">SubjectiveScore = #{subjectiveScore},</if>
+            <if test="objectiveScore != null">ObjectiveScore = #{objectiveScore},</if>
+            <if test="deduct != null">Deduct = #{deduct},</if>
+            <if test="submitTime != null">SubmitTime = #{submitTime},</if>
+            <if test="remark != null">Remark = #{remark},</if>
+
+        </trim>
+        WHERE ID = #{id}
+    </update>
+
+    <insert id="insertHomeworkDirUser" parameterType="com.zhihuishu.athomework.dto.HomeworkDirUserDto">
+        INSERT INTO HomeworkUser(HomeworkID, PaperID, UserID, Status, IsDelay,SubjectiveScore,ObjectiveScore,Deduct,SubmitTime,Similar,Remark)
+        VALUES (#{homeworkId}, #{paperId}, #{userId}, #{status}, #{isDelay}, #{subjectiveScore}, #{objectiveScore}, #{submitTime}, #{remark})
+    </insert>
+
+
+
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuishu.athomework.mapper.master.QuestionCourseMapper">
+
+    <resultMap id="questionCourseDtoMapper" type="com.zhihuishu.athomework.dto.QuestionCourseDto">
+        <id column="ID" property="id"/>
+        <result column="QuestionID" property="questionId"/>
+        <result column="CourseID" property="courseId"/>
+        <result column="FolderID" property="folderId"/>
+    </resultMap>
+
+    <select id="findQuesCourseByQuesId">
+        SELECT *
+        FROM QuestionCourse
+        WHERE QuestionID = #{questionId}
+    </select>
+
+    <select id="IsExistDupli" resultType="boolean">
+        SELECT count(*)
+        FROM QuestionCourse
+        WHERE QuestionID = #{questionId}
+            AND CourseID = #{courseId}
+            AND FolderID = #{folderId}
+    </select>
+
+    <insert id="saveQuesCourse">
+        INSERT INTO QuestionCourse(QuestionID, CourseID, FolderID)
+        VALUES (#{questionId}, #{courseId}, #{folderId})
+    </insert>
+
+    <insert id="saveQuesCourseBatch">
+        INSERT INTO QuestionCourse(QuestionID, CourseID, FolderID)
+        VALUES
+        <foreach collection="questionCourseSet" item="qc" separator=",">
+            (#{qc.questionId}, #{qc.courseId}, #{qc.folderId})
+        </foreach>
+    </insert>
+
+    <delete id="delQuesCourseByQuesId">
+        DELETE FROM QuestionCourse
+        WHERE QuestionID = #{questionId}
+    </delete>
+
+</mapper>

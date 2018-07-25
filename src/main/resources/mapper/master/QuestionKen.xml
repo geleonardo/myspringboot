@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuishu.athomework.mapper.master.QuestionKenMapper">
+
+    <resultMap id="questionKenDtoMapper" type="com.zhihuishu.athomework.dto.QuestionKenDto">
+        <id column="ID" property="id"/>
+        <result column="QuestionID" property="questionId"/>
+        <result column="KenID" property="kenId"/>
+    </resultMap>
+
+    <select id="findQuesKenByQuesId" resultMap="questionKenDtoMapper">
+        SELECT *
+        FROM QuestionKen
+        WHERE QuestionID = #{questionId}
+    </select>
+
+    <insert id="saveQuesKenBatch">
+        INSERT INTO QuestionKen(QuestionID, KenID)
+        VALUES
+        <foreach collection="kenIds" item="kenId" separator=",">
+            (#{questionId}, #{kenId})
+        </foreach>
+    </insert>
+
+    <delete id="delQuesKenByQuesId">
+        DELETE FROM QuestionKen
+        WHERE QuestionID = #{questionId}
+    </delete>
+</mapper>

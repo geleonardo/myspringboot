@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuishu.athomework.mapper.cluster.HomeworkAnswerMapper">
+
+    <resultMap id="homeworkDirAnswerMap" type="com.zhihuishu.athomework.dto.HomeworkDirAnswerDto">
+        <id column="ID" property="id"/>
+        <result column="HomeworkID" property="homeworkId"/>
+        <result column="UserID" property="userId"/>
+        <result column="Answer" property="answer"/>
+        <result column="Score" property="score"/>
+
+    </resultMap>
+
+    <select id="getHomeworkDirAnswerByID" resultMap="homeworkDirAnswerMap">
+        SELECT *  FROM HomeworkDirQuestionAnswer
+        WHERE HomeworkID=#{homeworkId}   AND UserID=#{userId}
+    </select>
+
+    <update id="updateHomeworkDirAnswer" parameterType="com.zhihuishu.athomework.dto.HomeworkDirAnswerDto">
+        UPDATE HomeworkDirQuestionAnswer
+        <trim prefix="set" suffixOverrides=",">
+            <if test="homeworkId != null">HomeworkID = #{homeworkId},</if>
+            <if test="userId != null">UserID = #{userId},</if>
+            <if test="answer != null">Answer = #{answer},</if>
+            <if test="score != null">Score = #{score},</if>
+        </trim>
+        WHERE ID = #{id}
+    </update>
+
+    <insert id="insertHomeworkDirAnswer" parameterType="com.zhihuishu.athomework.dto.HomeworkDirAnswerDto">
+        INSERT INTO HomeworkDirQuestionAnswer(HomeworkID, UserID,Answer,Score)
+        VALUES (#{homeworkId}, #{userId}, #{answer}, #{score})
+    </insert>
+
+</mapper>

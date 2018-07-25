@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuishu.athomework.mapper.master.PaperGroupMapper">
+
+    <resultMap id="paperGroupMap" type="com.zhihuishu.athomework.dto.PaperGroupDto">
+        <id column="ID" property="id"/>
+        <result column="PaperID" property="paperId"/>
+        <result column="Title" property="title"/>
+        <result column="Brief" property="brief"/>
+        <result column="Sort" property="sort"/>
+    </resultMap>
+
+    <!--试卷分组信息-->
+    <select id="findPaperGroupInfo" resultMap="paperGroupMap" >
+            SELECT ID,PaperID,Title,Brief,Sort FROM PaperGroup WHERE ID=#{groupId}
+    </select>
+
+    <!--试卷分组ID-->
+    <select id="findPaperGroupIDS" resultType="String">
+        SELECT ID FROM PaperGroup WHERE PaperID=#{paperId} ORDER BY  Sort
+    </select>
+
+</mapper>

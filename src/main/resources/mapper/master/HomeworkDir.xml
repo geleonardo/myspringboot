@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuishu.athomework.mapper.master.HomeworkDirMapper">
+
+    <resultMap id="homeworkDirMap" type="com.zhihuishu.athomework.dto.HomeworkDirDto">
+        <id column="ID" property="id"/>
+        <result column="CourseID" property="courseId"/>
+        <result column="Title" property="title"/>
+        <result column="EndTime" property="endTime"/>
+        <result column="BuildMode" property="buildMode"/>
+        <result column="FolderID" property="folderId"/>
+        <result column="SubmitOption" property="submitOption"/>
+        <result column="IsPublish" property="isPublish"/>
+        <result column="IsDelay" property="isDelay"/>
+        <result column="RandMode" property="randMode"/>
+        <result column="CreateUserID" property="createUserId"/>
+        <result column="CreateTime" property="createTime"/>
+        <result column="UpdateTime" property="updateTime"/>
+        <result column="SchoolID" property="schoolId"/>
+        <result column="ClassIDS" property="classIds"/>
+        <result column="Content" property="content"/>
+        <result column="Score" property="score"/>
+    </resultMap>
+
+    <resultMap id="homeworkDirFileMap" type="com.zhihuishu.athomework.dto.HomeworkDirFileDto">
+        <id column="ID" property="id"/>
+        <result column="HomeworkID" property="homeworkId"/>
+        <result column="FileID" property="fileId"/>
+        <result column="FileTitle" property="fileTitle"/>
+        <result column="FileSize" property="fileSize"/>
+        <result column="FileUrl" property="fileUrl"/>
+        <result column="UploadTime" property="uploadTime"/>
+    </resultMap>
+
+    <select id="findHomeworkDir" resultMap="homeworkDirMap">
+        SELECT t1.ID,CourseID,Title,EndTime,BuildMode,FolderID,SubmitOption,IsPublish,IsDelay,RandMode,CreateUserID,CreateTime,UpdateTime,ClassIDS,t2.Content,t2.Score
+        FROM Homework t1
+        INNER JOIN HomeworkDirQuestion t2 ON t2.HomeworkID=t1.ID
+        WHERE ID=#{homeworkId}
+    </select>
+
+    <select id="findHomeworkDirFile" resultMap="homeworkDirFileMap">
+        SELECT ID,HomeworkID,FileID,FileTitle,FileSize,FileUrl,UploadTime FROM HomeworkDirQuestionFile WHERE ID=#{homeworkDirFileId}
+    </select>
+
+    <select id="findHomeworkDirFileIDS" resultType="String">
+        SELECT ID FROM HomeworkDirQuestionFile WHERE HomeworkID=#{homeworkId}
+    </select>
+
+    <insert id="insertHomeworkDirQuestion">
+        INSERT INTO HomeworkDirQuestion(HomeworkID,Content,Score)VALUES (#{homeworkId},#{content},#{score})
+    </insert>
+
+</mapper>

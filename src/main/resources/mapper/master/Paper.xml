@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zhihuishu.athomework.mapper.master.PaperMapper">
+
+    <resultMap id="paperMap" type="com.zhihuishu.athomework.dto.PaperDto">
+        <id column="ID" property="id"/>
+        <result column="Title" property="title"/>
+        <result column="UserID" property="userId"/>
+        <result column="CourseID" property="courseId"/>
+        <result column="CreateTime" property="createTime"/>
+        <result column="PaperType" property="paperType"/>
+        <result column="SchoolID" property="schoolId"/>
+    </resultMap>
+
+    <!--试卷信息-->
+    <select id="getPaperInfo" resultMap="paperMap">
+            SELECT ID,Title,UserID,CourseID,CreateTime,PaperType,SchoolID FROM Paper WHERE ID=#{paperId}
+    </select>
+
+    <update id="updatePaperDemo" parameterType="com.zhihuishu.athomework.dto.PaperDto">
+        UPDATE Paper
+            <trim prefix="set" suffixOverrides=",">
+                <if test="title != null">Title = #{title},</if>
+                <if test="userId != null">UserID = #{userId},</if>
+                <if test="courseId != null">CourseID = #{courseId},</if>
+                <if test="createTime != null">CreateTime = #{createTime},</if>
+                <if test="paperType != null">PaperType = #{paperType},</if>
+            </trim>
+            WHERE id = #{id}
+    </update>
+
+    <insert id="insertPaperDemo" parameterType="com.zhihuishu.athomework.dto.PaperDto">
+        INSERT INTO Paper(Title, UserID, CourseID, CreateTime, PaperType)
+            VALUES (#{title}, #{userId}, #{courseId}, #{createTime}, #{paperType})
+    </insert>
+
+
+</mapper>
